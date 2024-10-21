@@ -7,6 +7,7 @@ public class Romain {
 	private int force;
 	private Equipement[] equipements;
 	private int nbEquipement = 0;
+	private boolean vainqueur;
 	
 	public Romain(String nom, int force) {
 		if (force < 0) {
@@ -17,6 +18,10 @@ public class Romain {
 		equipements = new Equipement[2];
 	}
 	
+	  public boolean estVainqueur() {
+	        return vainqueur;
+	    }
+	 
 	public String getNom() {
 		return nom;
 	}
@@ -70,9 +75,19 @@ public class Romain {
 			parler("J'abandonne...");
 		}
 		// post condition la force a diminuée
-		if (force >= oldForce) {
-			throw new IllegalArgumentException("Invalid force");
-		}
+		if (forceCoup >= oldForce) {
+	        parler("Je résiste au coup !");
+	    } else {
+	        parler("Aïe ! Le coup a réduit ma force.");
+	    }
+		
+		if (force <= 0) {
+            parler("J'abandonne...");
+            vainqueur = false;  // Il perd
+        } else {
+            vainqueur = true;  // Il résiste au coup
+        }
+		
 		return equipementEjecte;
 	}
 	
@@ -86,7 +101,7 @@ private int calculResistanceEquipement(int forceCoup) {
 		for (int i = 0; i < nbEquipement; i++) {
 			if ((equipements[i] != null && equipements[i].equals(Equipement.BOUCLIER))) {
 				resistanceEquipement += 8;
-			} else {
+			} else if ((equipements[i] != null && equipements[i].equals(Equipement.CASQUE))){
 				System.out.println("Equipement casque");
 				resistanceEquipement += 5;
 			}
@@ -94,14 +109,14 @@ private int calculResistanceEquipement(int forceCoup) {
 		texte += resistanceEquipement + "!";
 	}
 	parler(texte);
-	forceCoup -= resistanceEquipement;
+	forceCoup = Math.max(0, forceCoup - resistanceEquipement);
 	return forceCoup;
 	}
 	
 	
 private Equipement[] ejecterEquipement() {
 	Equipement[] equipementEjecte = new Equipement[nbEquipement];
-	System.out.println("L'équipement de " + nom + " s'envolent sous la force du coup.");
+	System.out.println("L'équipement de " + nom + " s'envole sous la force du coup.");
 	int nbEquipementEjecte = 0;
 	for (int i = 0; i < nbEquipement; i++) {
 		if (equipements[i] != null) {

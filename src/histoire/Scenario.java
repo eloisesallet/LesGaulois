@@ -4,7 +4,7 @@ import gestionVillage.Equipement;
 import personnages.Druide;
 import personnages.Gaulois;
 import personnages.Romain;
-//import villagegaulois.Musee;
+import gestionMusee.Musee;
 
 public class Scenario {
 
@@ -26,16 +26,16 @@ public class Scenario {
 		minus.parler("UN GAU... UN GAUGAU...");
 		do {
 			asterix.frapper(minus);
-		} while (minus.getForce() > 0);
+		} while (minus.estVainqueur());
 		milexcus.parler("UN GAU... UN GAUGAU...");
 		do {
 			asterix.frapper(milexcus);
-		} while (milexcus.getForce() > 0);
+		} while (milexcus.estVainqueur());
 		
 //		Partie a decommenter
 		
-//		Musee musee = new Musee();
-//		asterix.faireUneDonnation(musee);
+		Musee musee = new Musee();
+		asterix.faireUneDonnation(musee);
 
 	}
 
